@@ -95,8 +95,9 @@ FakeThread_YieldWithMainRsp:
 ; void FakeThread_ResumeWithThreadRsp(long long llThreadRsp, long long *pSaveMainRsp, FakeThreadItem *pItem, FakeThreadResumeParam *pResumeParam)
 _FakeThread_ResumeWithThreadRsp:
 FakeThread_ResumeWithThreadRsp:
+    mov eax, [esp + 8]
+    mov [eax], esp ; 第二个参数用于保存当前栈
     mov eax, esp ; 这里保存下原先的栈位置，以便方问参数
-    mov [eax + 8], esp ; 第二个参数用于保存当前栈
     push dword [eax + 12] ; 第三个参数: 新的伪线程对象
     push ebp
 
