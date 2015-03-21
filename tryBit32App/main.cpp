@@ -79,6 +79,10 @@ static void  SomeFunc()
 
     FakeThread_YieldWithMainRsp(llMainRsp, &gFtRsp);
 }
+static void FuncWithoutYield()
+{
+    printf("%s\n", __FUNCTION__);
+}
 // ==============
 
 int main(int argc, const char * argv[]) {
@@ -101,6 +105,9 @@ int main(int argc, const char * argv[]) {
     }
     
     fnStartWithRsp fn = FakeThread_StartWithRsp;
+
+    fn((FtRspType) (pnIntStack + gnStackSize - 4), FuncWithoutYield, (FakeThreadItem *) 0x12568901, &llMainRsp);
+
     fn((FtRspType) (pnIntStack + gnStackSize - 4), SomeFunc, (FakeThreadItem *) 0x12568901, &llMainRsp);
     
     FakeThread_ResumeWithThreadRsp(gFtRsp, &llMainRsp, NULL, (FakeThreadResumeParam *) 0x234231);
