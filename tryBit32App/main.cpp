@@ -81,7 +81,11 @@ static void  SomeFunc()
 }
 static void FuncWithoutYield()
 {
+    FakeThreadResumeParam *pTmpParam = NULL;
     printf("%s\n", __FUNCTION__);
+    pTmpParam = FakeThread_YieldWithMainRsp(llMainRsp, &gFtRsp);
+    printf("pTmpParam = %p\n", pTmpParam);
+    printf("second %s\n", __FUNCTION__);
 }
 // ==============
 
@@ -107,6 +111,7 @@ int main(int argc, const char * argv[]) {
     fnStartWithRsp fn = FakeThread_StartWithRsp;
 
     fn((FtRspType) (pnIntStack + gnStackSize - 4), FuncWithoutYield, (FakeThreadItem *) 0x12568901, &llMainRsp);
+    FakeThread_ResumeWithThreadRsp(gFtRsp, &llMainRsp, NULL, (FakeThreadResumeParam *) 0x234231);
 
     fn((FtRspType) (pnIntStack + gnStackSize - 4), SomeFunc, (FakeThreadItem *) 0x12568901, &llMainRsp);
     
